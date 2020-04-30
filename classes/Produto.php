@@ -6,6 +6,8 @@ class Produto
 	private $nome;
 	private $preco;
 	private $categoria;
+    private $qtd;
+    private $descricao;
 
     /**
      * @return mixed
@@ -53,6 +55,10 @@ class Produto
     {
         return number_format($this->preco, 2, ',','.');
     }
+
+    /**
+     * @return mixed
+     */
     public function getPrecoBD()
     {
         return $this->preco;
@@ -89,6 +95,46 @@ class Produto
     public function setCategoria(Categoria $categoria)
     {
         $this->categoria = $categoria;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQtd()
+    {
+        return $this->qtd;
+    }
+
+    /**
+     * @param mixed $qtd
+     *
+     * @return self
+     */
+    public function setQtd($qtd)
+    {
+        $this->qtd = $qtd;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+
+    /**
+     * @param mixed $descricao
+     *
+     * @return self
+     */
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
 
         return $this;
     }
