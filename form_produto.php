@@ -1,12 +1,10 @@
 <?php include './layout/header.php'; ?>
 <?php include './layout/menu.php'; ?>
-<?php 
-
+<?php
 	$permissoes = retornaControle('produto');
-	if (empty($permissoes)) {
-		header("Location: administrativa.php?msg=Sem permissão de acesso");
+	if(empty($permissoes)) {
+		header("Location: adminstrativa.php?msg=Acesso negado.");
 	}
-
 	require 'classes/Categoria.php';
 	require 'classes/CategoriaDAO.php';
 	require 'classes/Imagem.php';
@@ -88,17 +86,11 @@
 					</div>
 				</div>
 			</div>
-			<?php if ($permissoes['insert'] && $produto->getId() == ''):?>
+			<?php if(($permissoes['insert'] && $produto->getId() == '') || ($permissoes['update'] && $produto->getId() != '')): ?>
 			<div class="form-group">
-				<button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar</button>
+				<button type="submit" class="btn btn-primary w-100">Salvar</button>
 			</div>
 			<?php endif; ?>
-
-			<?php if ($permissoes['update'] && $produto->getId() != ''):?>
-			<div class="form-group">
-				<button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar</button>
-			</div>
-		<?php endif; ?>
 		</form>
 	</div>
 
@@ -106,7 +98,12 @@
 		<div class="col-6">
 			<p>&nbsp;</p>
 			<p>&nbsp;</p>
-			<?php if ($permissoes['insert'] && $produto->getId() == ''):?>
+		<?php 
+			$permissoesImagens = retornaControle('imagensProduto');
+
+			if(!empty($permissoesImagens)): 
+		?>
+			
 			<div class="card">
 				<div class="card-header">
 					Imagens
@@ -120,40 +117,33 @@
 						</div>
 						<br>
 						<br>
-						<button type="submit" class="btn btn-primary w-100">Cadastrar imagens</button>
+						<button type="submit" class="btn btn-info w-100">Cadastrar imagens</button>
 					</form>
 				</div>
 			</div>
 			<?php endif; ?>
-
-			<?php if ($permissoes['update'] && $produto->getId() != ''):?>
-			<div class="card">
-				<div class="card-header">
-					Imagens
-				</div>
-				<div class="card-body">
-					<form action="controle_produto.php?acao=cadastraImagens" method="post" enctype="multipart/form-data">
-						<input type="hidden" name="produto_id" value="<?= $produto->getId();  ?>">
-						<div class="custom-file">
-						  <input type="file" class="custom-file-input" name="imagens[]" id="imagens" multiple>
-						  <label class="custom-file-label" for="imagens">Escolha as imagens</label>
-						</div>
-						<br>
-						<br>
-						<button type="submit" class="btn btn-primary w-100">Cadastrar imagens</button>
-					</form>
-				</div>
-			</div>
-			<?php endif; ?>
-
 			<div class="card">
 				<div class="card-header">
 					Imagens cadastradas
 				</div>
 				<div class="card-body">
-					<?php foreach($imagens as $imagem): ?>
-						<img src="<?= $imagem->getCaminho(); ?>" class="img-thumbnail" width="150px">
-					<?php endforeach; ?>
+					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+					  <div class="carousel-inner">
+					    <div class="carousel-item active">
+					      <?php foreach($imagens as $imagem): ?>
+							<img src="<?= $imagem->getCaminho(); ?>" class="img-thumbnail" width="150px">
+						<?php endforeach; ?>
+					    </div>
+					  </div>
+					  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+					    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					    <span class="sr-only">Anterior</span>
+					  </a>
+					  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+					    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					    <span class="sr-only">Próximo</span>
+					  </a>
+					</div>
 				</div>
 			</div>
 		</div>

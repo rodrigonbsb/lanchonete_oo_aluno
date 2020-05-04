@@ -3,10 +3,6 @@
 <?php 
 
 	$permissoes = retornaControle('cliente');
-	if(empty($permissoes)) {
-		header("Location: administrativa.php?msg=Sem permissão de acesso");
-	}
-
 	require 'classes/Cliente.php'; 
 	require 'classes/ClienteDAO.php';
 	$cliente = new Cliente();
@@ -32,24 +28,12 @@
 	<div class="row">
 		<div class="col-3 text-center">
 			<img src="/assets/img/clientes/<?= ($cliente->getImagem() != '' && file_exists('assets/img/clientes/'.$cliente->getImagem()) ? $cliente->getImagem() : 'usuario.png') ?>" alt="" width="150" class="rounded-circle img-thumbnail" id="fotopreview">
-
-			<?php if($permissoes['insert'] && $cliente->getId() == '') : ?>
 			<br>
 			<br>
 			<div class="custom-file">
 			  <input type="file" class="custom-file-input" name="imagem" id="imagem">
 			  <label class="custom-file-label" for="imagem">Escolher...</label>
 			</div>
-			<?php endif; ?>
-
-			<?php if($permissoes['update'] && $cliente->getId() != '') : ?>
-			<br>
-			<br>
-			<div class="custom-file">
-			  <input type="file" class="custom-file-input" name="imagem" id="imagem">
-			  <label class="custom-file-label" for="imagem">Escolher...</label>
-			</div>
-			<?php endif; ?>
 			<!-- <div class="form-group">
 				<input type="file" name="imagem" id="imagem" class="form-control-file">
 			</div> -->
@@ -133,18 +117,11 @@
 					<input type="text" name="estado" id="estado" value="<?= ($cliente->getEstado() != '' ? $cliente->getEstado() : ''); ?>" class="form-control">
 				</div>
 			</div>
-
-				<?php if($permissoes['insert'] && $cliente->getId() == '' ) : ?>
+			<?php if(($permissoes['update'] && $cliente->getId() != '') || ($permissoes['insert'] && $cliente->getId() == '')): ?>
 				<div class="form-group">
-					<button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar</button>
+					<button type="submit" class="btn btn-primary w-100">Salvar</button>
 				</div>
-				<?php endif; ?>
-
-				<?php if($permissoes['update'] && $cliente->getId() != '' ) : ?>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar</button>
-				</div>
-				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 	</div>
 </form>
