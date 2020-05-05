@@ -1,4 +1,6 @@
 <?php include './layout/header.php'; ?>
+<link rel="stylesheet" href="./assets/js/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="./assets/js/assets/owl.theme.default.min.css">
 <?php include './layout/menu.php'; ?>
 <?php
 	$permissoes = retornaControle('produto');
@@ -126,24 +128,10 @@
 				<div class="card-header">
 					Imagens cadastradas
 				</div>
-				<div class="card-body">
-					<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-					  <div class="carousel-inner">
-					    <div class="carousel-item active">
-					      <?php foreach($imagens as $imagem): ?>
-							<img src="<?= $imagem->getCaminho(); ?>" class="img-thumbnail" width="150px">
-						<?php endforeach; ?>
-					    </div>
-					  </div>
-					  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-					    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					    <span class="sr-only">Anterior</span>
-					  </a>
-					  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-					    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-					    <span class="sr-only">Próximo</span>
-					  </a>
-					</div>
+				<div class="card-body owl-carousel owl-theme">
+					<?php foreach($imagens as $imagem): ?>
+						<img src="<?= $imagem->getCaminho(); ?>" class="img-thumbnail item" width="150px">
+					<?php endforeach; ?>
 				</div>
 			</div>
 		</div>
@@ -151,3 +139,24 @@
 </div>
 
 <?php include './layout/footer.php'; ?>
+<script src="./assets/js/owl.carousel.js"></script>
+<script type="text/javascript">
+	$('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+	animateOut: 'fadeOut',
+	stagePadding: 110,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:1
+        },
+        1000:{
+            items:1
+        }
+    }
+})
+</script>
